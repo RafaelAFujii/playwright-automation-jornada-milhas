@@ -1,12 +1,20 @@
-import { Locator,expect, Page } from "@playwright/test";
+import { Locator, expect, Page } from "@playwright/test";
+import { test as base} from "@playwright/test";
 
-export class PaginaLogin {
+export const test = base.extend<{ paginaLogin: PaginaLogin}>({
+    paginaLogin: async ({ page }, use) => {
+        const paginaLogin = new PaginaLogin(page);
+        await paginaLogin.visitar();
+        await use(paginaLogin);
+    }
+});
 
+export default class PaginaLogin {
     private readonly page: Page;
-    private readonly botaoLogin;
-    private readonly inputEmail: import("playwright-core").Locator;
-    private readonly inputSenha: import("playwright-core").Locator;
-    private readonly botaoAcessarConta: import("playwright-core").Locator;
+    private readonly botaoLogin: Locator;
+    private readonly inputEmail: Locator;
+    private readonly inputSenha: Locator;
+    private readonly botaoAcessarConta: Locator;
 
     constructor(page: Page) {
         this.page = page;
