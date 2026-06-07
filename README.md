@@ -1,27 +1,34 @@
-![Jornada Milhas]
+# ✈️ Jornada Milhas - Automação E2E com Playwright
 
-# Jornada Milhas
-
-O Jornada Milhas é uma StartUP fictícia. Atualmente, é um site onde podemos buscar por passagens de avisão e até filtrar seus resultados por preços, conexões e companhias. Também conta com as funcionalidades de cadastro, login e edição de perfil.
+O **Jornada Milhas** é uma StartUP fictícia. Trata-se de uma aplicação web onde os usuários podem buscar passagens de avião e filtrar os resultados por preços, conexões e companhias aéreas. O sistema também conta com fluxos completos de cadastro, login e edição de perfil.
 
 <img src="screenshot.png" alt="Imagem do Jornada Milhas" width="50%">
 
+Este repositório contém o código-fonte da aplicação front-end e o projeto de automação de testes **End-to-End (E2E)** construído para ela. O objetivo desta automação é garantir a confiabilidade, resiliência e acessibilidade das jornadas de usuário.
 
-## 🔨 Funcionalidades do projeto
+## ✔️ Técnicas e Tecnologias Utilizadas
 
-O projeto já está bastante completo, mas agora iremos implementar testes E2E (*End-to-end*), a fim de aumentar a confiabilidade e qualidade do sistema.
+- **Front-end:** `Angular`
+- **Framework de Teste:** `Playwright`
+- **Linguagem dos Testes:** `TypeScript`
 
+## 🔨 Arquitetura e Design de Testes
 
+Para elevar a qualidade do sistema, a automação E2E foi desenhada utilizando práticas avançadas de engenharia de software:
 
-## ✔️ Técnicas e tecnologias utilizadas
+- **Padrão de Projeto:** Page Object Model (POM) para isolar a estrutura das páginas da lógica dos testes.
+- **Fixtures Customizadas:** Injeção de dependências nos testes para eliminar repetição de código (DRY) e facilitar a manutenção.
+- **Locators Resilientes:** Priorização de atributos estruturais (`data-testid`) definidos pela equipe e regras de acessibilidade (`getByRole`, `getByLabel`).
+- **Locator Chaining:** Encadeamento de seletores para interação precisa com componentes web complexos e modais genéricos.
 
-- `Angular`
-- `Playwright`
+## 📂 Estrutura da Automação
 
-## 🛠️ Abrir e rodar o projeto
+A arquitetura de testes está centralizada na pasta `e2e/`:
 
-Para abrir e rodar o projeto, execute `npm i` para instalar as dependências e `ng serve` para iniciar o projeto.
-
-Depois, acesse <a href="http://localhost:4200/">http://localhost:4200/</a> no seu navegador.
-
-Você também precisa rodar o [back-end utilizado no curso](https://github.com/viniciosneves/jornada-milhas-api).
+```text
+📦 e2e
+ ┣ 📂 page-objects               # Classes de mapeamento de elementos e ações (POM)
+ ┃ ┣ 📜 PaginaLogin.ts           # Page Object da tela de autenticação
+ ┃ ┗ 📜 PaginaPrincipal.ts       # Page Object da tela de busca e modais
+ ┣ 📜 fazerLogin.spec.ts         # Cenários de teste de autenticação (usando Fixtures)
+ ┗ 📜 jornadaBuscaPassagem.spec.ts # Cenários de busca de voos e adição de passageiros
