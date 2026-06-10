@@ -16,6 +16,10 @@ export default class PaginaPrincipal {
   private readonly containerOrigem: Locator;
   private readonly containerDestino: Locator;
   private readonly botaoComprar: Locator;
+  private readonly textoDataIda: Locator;
+  private obterDataExibicao(data: Date): string {
+    return data.toLocaleString('en-US', { day: '2-digit', month: '2-digit'});
+  }
 
   constructor(page: Page) {
     this.page = page;
@@ -48,6 +52,7 @@ export default class PaginaPrincipal {
     this.containerOrigem = page.getByTestId('container-origem');
     this.containerDestino = page.getByTestId('container-destino');
     this.botaoComprar = page.getByTestId('botao-comprar');
+    this.textoDataIda = page.getByTestId('texto-data-ida');
   }
 
   async visitar() {
@@ -92,7 +97,7 @@ export default class PaginaPrincipal {
     await this.campoDropdownDestino.press('Enter'); // Pressionar Enter para selecionar a opção sugerida
   }
 
-  async definirData(data: Date) {
+  async definirDataIda(data: Date) {
     const dataFormatada = data.toLocaleString('us-US', { dateStyle: 'short' });
     await this.campoDataIda.fill(dataFormatada);
   }
@@ -104,11 +109,15 @@ export default class PaginaPrincipal {
   async estaMostandoPassagem(
     tipoTrajeto: 'Somente ida' | 'Ida e volta',
     origem: string,
-    destino: string
+    destino: string,
+    dataIda: Date
   ) {
+    const dataIdaExibicao = this.obterDataExibicao(dataIda);
+    
     await expect(this.textoIdaVolta).toHaveText(tipoTrajeto);
     await expect(this.containerOrigem).toContainText(origem);
     await expect(this.containerDestino).toContainText(destino);
+    await expect(this.textoDataIda).toHaveText(dataIdaExibicao);
     await expect(this.botaoComprar).toBeVisible();
   }
   
